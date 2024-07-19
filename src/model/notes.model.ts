@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 import { Note } from "../types/note.types";
 
 const noteSchema = new mongoose.Schema<Note>(
@@ -16,8 +16,8 @@ const noteSchema = new mongoose.Schema<Note>(
       type: [String],
       required: true,
     },
-    user: {
-      type: Schema.Types.ObjectId,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
     },
@@ -25,5 +25,5 @@ const noteSchema = new mongoose.Schema<Note>(
   { timestamps: true }
 );
 
-const Notes = mongoose.model<Note>("notes", noteSchema);
+const Notes = mongoose.model<Note>("note", noteSchema);
 export default Notes;

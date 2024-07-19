@@ -12,13 +12,13 @@ export const createNote = async (
   if (!title || !description || !tags.length) {
     return next(createHttpError(400, "All fields are required"));
   }
-  const user = (req as AuthRequest).user;
+  const userId = (req as AuthRequest).user;
   try {
     const newNote = await Notes.create({
       title,
       description,
       tags,
-      user,
+      userId,
     });
     res.status(201).send({
       message: "Note created successfully",
@@ -36,8 +36,9 @@ export const getAllNotes = async (
   next: NextFunction
 ) => {
   const userId = (req as AuthRequest).user;
+  //   console.log(userId);
   try {
-    const notes = await Notes.find({ user: userId });
+    const notes = await Notes.find({ userId });
     if (!notes) {
       return next(createHttpError(404, "No any notes available"));
     }
@@ -47,6 +48,7 @@ export const getAllNotes = async (
       notes,
     });
   } catch (error) {
+    console.log(error);
     next(createHttpError(500, "Something went wrong with get all notes api"));
   }
 };
